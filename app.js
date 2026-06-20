@@ -12,7 +12,7 @@ const TRANSLATIONS = {
     heroDesc: "Get premium devices, disposables, pod systems, and e-liquids delivered straight to your Cairo doorstep within 3 hours. Cash on delivery.",
     fastDelivery: "3-Hour Shipping",
     codTag: "Cash on Delivery",
-    ageTag: "21+ Age Verified",
+    ageTag: "18+ Age Verified",
     categories: "Categories",
     all: "All Products",
     devices: "Devices",
@@ -70,7 +70,7 @@ const TRANSLATIONS = {
     heroDesc: "احصل على أفضل الأجهزة، البودات، النكهات والديسبوزابل مباشرة إلى باب منزلك بالقاهرة خلال ٣ ساعات. الدفع عند الاستلام.",
     fastDelivery: "توصيل خلال ٣ ساعات",
     codTag: "الدفع عند الاستلام",
-    ageTag: "+٢١ التحقق من السن",
+    ageTag: "+١٨ التحقق من السن",
     categories: "الأقسام",
     all: "الكل",
     devices: "أجهزة الفيب",
@@ -264,7 +264,7 @@ const MAP_LOCATIONS = {
 
 // 🗃️ Application State Repository (persisted in LocalStorage)
 const STATE = {
-  locale: 'en',
+  locale: 'ar',
   cart: [],
   selectedCategory: 'all',
   searchQuery: '',
@@ -343,6 +343,18 @@ function saveDataToStorage() {
 // ==========================================================================
 window.addEventListener('DOMContentLoaded', () => {
   loadDataFromStorage();
+
+  // Set initial language visuals based on starting locale
+  const body = document.body;
+  const toggleBtn = document.getElementById('langToggleBtn');
+  if (STATE.locale === 'ar') {
+    body.classList.add('rtl-mode');
+    if (toggleBtn) toggleBtn.innerHTML = 'English 🇬🇧';
+  } else {
+    body.classList.remove('rtl-mode');
+    if (toggleBtn) toggleBtn.innerHTML = 'العربية 🇪🇬';
+  }
+
   renderCategories();
   renderProducts();
   applyTranslations();

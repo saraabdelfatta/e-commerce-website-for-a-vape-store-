@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vape Cairo - Premium Vape E-Commerce</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- Floating WhatsApp Support Link -->
@@ -15,7 +17,7 @@
   <div class="navbar-wrapper">
     <nav class="navbar">
       <div class="navbar-brand">
-        VAPE<span>CAIRO</span> 💨
+        VAPE<span>CAIRO</span>
       </div>
       <div class="navbar-actions">
         <button class="btn-nav" id="langToggleBtn" onclick="toggleLanguage()">
@@ -34,7 +36,8 @@
 
   <!-- Welcome Rewards Promo Banner -->
   <div class="rewards-promo-banner" id="rewardsWelcomeBanner">
-    🎉 <span data-i18n="rewardsBannerText">First visit? Use code <strong>WELCOME10</strong> in cart for 10% off your first vape order!</span>
+    🎉 <span data-i18n="rewardsBannerText">First visit? Use code <strong>WELCOME10</strong> in cart for 10% off your
+      first vape order!</span>
   </div>
 
   <!-- Hero Promotional Banner Section -->
@@ -43,12 +46,13 @@
       <div class="banner-badge" data-i18n="cairoArea">Cairo Delivery Hub</div>
       <h1 class="banner-title" data-i18n="heroTitle">PREMIUM VAPE SELECTION</h1>
       <p class="banner-desc" data-i18n="heroDesc">
-        Get premium devices, disposables, pod systems, and e-liquids delivered straight to your Cairo doorstep within 3 hours. Cash on delivery.
+        Get premium devices, disposables, pod systems, and e-liquids delivered straight to your Cairo doorstep within 3
+        hours. Cash on delivery.
       </p>
       <div class="banner-features">
         <div class="feature-tag">⚡ <span data-i18n="fastDelivery">3-Hour Shipping</span></div>
         <div class="feature-tag">💵 <span data-i18n="codTag">Cash on Delivery</span></div>
-        <div class="feature-tag">🔞 <span data-i18n="ageTag">21+ Age Verified</span></div>
+        <div class="feature-tag"> <span data-i18n="ageTag">18+ Age Verified</span></div>
       </div>
     </div>
   </header>
@@ -58,7 +62,8 @@
     <div class="search-filter-row">
       <div class="search-bar-container">
         <span class="search-icon">🔍</span>
-        <input type="text" class="search-input" id="productSearchInput" onkeyup="handleSearch()" placeholder="Search devices, pods, flavors...">
+        <input type="text" class="search-input" id="productSearchInput" onkeyup="handleSearch()"
+          placeholder="Search devices, pods, flavors...">
       </div>
     </div>
     <div class="category-tabs" id="categoryTabsContainer">
@@ -77,7 +82,7 @@
   <section class="order-tracking-panel" id="orderTrackingSection">
     <div class="tracking-card">
       <div class="drawer-title" style="margin-bottom: 20px;" data-i18n="orderTracking">Order Status Tracking</div>
-      
+
       <div class="tracking-summary">
         <div>
           <div class="summary-block-title" data-i18n="trackId">Order Reference</div>
@@ -102,17 +107,20 @@
         <div class="timeline-node completed" id="stepNode1">
           <div class="timeline-bullet"></div>
           <div class="timeline-desc-title" data-i18n="step1Title">Order Placed</div>
-          <div class="timeline-desc-text" data-i18n="step1Desc">We have received your order ticket and routing to Cairo processing center.</div>
+          <div class="timeline-desc-text" data-i18n="step1Desc">We have received your order ticket and routing to Cairo
+            processing center.</div>
         </div>
         <div class="timeline-node" id="stepNode2">
           <div class="timeline-bullet"></div>
           <div class="timeline-desc-title" data-i18n="step2Title">Preparing & Packing</div>
-          <div class="timeline-desc-text" data-i18n="step2Desc">Flavors, battery capacity, and pod resistances are checked and sealed.</div>
+          <div class="timeline-desc-text" data-i18n="step2Desc">Flavors, battery capacity, and pod resistances are
+            checked and sealed.</div>
         </div>
         <div class="timeline-node" id="stepNode3">
           <div class="timeline-bullet"></div>
           <div class="timeline-desc-title" data-i18n="step3Title">Out for Delivery</div>
-          <div class="timeline-desc-text" data-i18n="step3Desc">Our motorcycle shipping representative is driving to your pin location.</div>
+          <div class="timeline-desc-text" data-i18n="step3Desc">Our motorcycle shipping representative is driving to
+            your pin location.</div>
         </div>
         <div class="timeline-node" id="stepNode4">
           <div class="timeline-bullet"></div>
@@ -158,11 +166,12 @@
       <div class="cart-items-list" id="cartItemsContainer">
         <!-- Rendered via JS -->
       </div>
-      
+
       <!-- Cart inputs -->
       <div id="cartCheckoutInputs" style="display:none; margin-top:20px;">
         <div class="delivery-section">
-          <div class="drawer-title" style="font-size:14px; margin-bottom:10px;" data-i18n="deliveryTitle">Delivery Destination</div>
+          <div class="drawer-title" style="font-size:14px; margin-bottom:10px;" data-i18n="deliveryTitle">Delivery
+            Destination</div>
           <button class="delivery-selector-btn" style="margin-bottom: 10px;" onclick="openMapsPicker()">
             <span class="pin-icon-animated">📍</span>
             <div class="delivery-text-wrapper">
@@ -171,14 +180,18 @@
             </div>
             <span>➡️</span>
           </button>
-          
-          <input type="text" class="notes-input" id="cartLocationUrl" placeholder="Or paste Google Maps location URL (optional)" style="margin-bottom: 10px; height: 38px; padding: 0 10px; font-size: 13px;">
-          
-          <textarea class="notes-input" id="cartAddressNotes" placeholder="Additional details (e.g. Apartment, floor, building number, district...)"></textarea>
+
+          <input type="text" class="notes-input" id="cartLocationUrl"
+            placeholder="Or paste Google Maps location URL (optional)"
+            style="margin-bottom: 10px; height: 38px; padding: 0 10px; font-size: 13px;">
+
+          <textarea class="notes-input" id="cartAddressNotes"
+            placeholder="Additional details (e.g. Apartment, floor, building number, district...)"></textarea>
         </div>
 
         <!-- Loyalty Points Claim & Coupon Code Block -->
-        <div class="rewards-checkout-block" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+        <div class="rewards-checkout-block"
+          style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">
           <div class="loyalty-claim-container" id="loyaltyClaimContainer">
             <div style="font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">
               💎 <span data-i18n="loyaltyPoints">Loyalty Points:</span> <span id="cartLoyaltyBalanceVal">0</span>
@@ -191,7 +204,8 @@
             <input type="text" class="coupon-input" id="cartCouponInput" placeholder="Promo code (e.g., WELCOME10)">
             <button class="btn-apply-coupon" onclick="applyCouponCode()">Apply</button>
           </div>
-          <div class="coupon-feedback" id="couponFeedbackMessage" style="font-size: 12px; font-weight: 600; margin-top: 4px;"></div>
+          <div class="coupon-feedback" id="couponFeedbackMessage"
+            style="font-size: 12px; font-weight: 600; margin-top: 4px;"></div>
         </div>
 
         <div class="payment-method-card">
@@ -200,7 +214,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="drawer-footer">
       <div class="bill-breakdown">
         <div class="bill-line">
@@ -236,10 +250,11 @@
       <div class="modal-body">
         <!-- Search bar inside Map -->
         <div class="map-search-overlay">
-          <input type="text" class="map-search-input" id="mapDistrictSearchInput" placeholder="Search Cairo neighborhoods (e.g. Maadi)...">
+          <input type="text" class="map-search-input" id="mapDistrictSearchInput"
+            placeholder="Search Cairo neighborhoods (e.g. Maadi)...">
           <button class="btn-map-search" onclick="handleMapSearch()">🔍</button>
         </div>
-        
+
         <!-- Interactive Map grid -->
         <div class="map-canvas-mock">
           <!-- District Click Zones simulating map coordinates mapping -->
@@ -247,13 +262,13 @@
           <div class="map-grid-district district-heliopolis" onclick="selectMapDistrict('heliopolis')">Heliopolis</div>
           <div class="map-grid-district district-maadi" onclick="selectMapDistrict('maadi')">Maadi</div>
           <div class="map-grid-district district-newcairo" onclick="selectMapDistrict('newcairo')">New Cairo</div>
-          
+
           <!-- Center Pin -->
           <div class="map-center-pin-container">
             <span class="map-center-pin">📍</span>
             <div class="map-pin-shadow"></div>
           </div>
-          
+
           <!-- Locate Trigger -->
           <button class="btn-locate-me" onclick="selectMapDistrict('newcairo')">🎯</button>
         </div>
@@ -266,11 +281,13 @@
             <div class="delivery-text-desc" id="mapConfirmCoords">Lat: 30.0166, Lng: 31.4913</div>
           </div>
         </div>
-        <button class="btn-confirm-coords" onclick="confirmMapAddress()" data-i18n="confirmLocation">Confirm Pin Location</button>
+        <button class="btn-confirm-coords" onclick="confirmMapAddress()" data-i18n="confirmLocation">Confirm Pin
+          Location</button>
       </div>
     </div>
   </div>
 
   <script src="app.js"></script>
 </body>
+
 </html>
