@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vape Cairo - Owner Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Admin Navigation Header -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <div class="navbar-brand" style="color: var(--primary);">
+        VAPE<span>CAIRO</span> 👑 <span style="font-size:14px; font-weight:600; color:var(--text-muted); margin-left: 10px;">Owner Panel</span>
+      </div>
+      <div class="navbar-actions">
+        <a href="index.html" class="btn-nav">
+          🏪 <span>Storefront</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Admin Panel Dashboard Main Section -->
+  <section class="admin-panel-section" style="display: block; max-width: 1400px; margin: 30px auto 60px; padding: 0 25px;">
+    <div class="admin-header-card">
+      <h2 style="font-size:24px; font-weight:900; color:var(--primary); margin-bottom:10px;">👑 Store Owner Dashboard</h2>
+      <p style="font-size:14px; color:var(--text-muted);">Manage products catalog, update prices, edit stocks, and check placed orders.</p>
+    </div>
+
+    <!-- Stats Widget Row -->
+    <div class="admin-stats-row">
+      <div class="stat-card">
+        <div class="stat-title">Total Products</div>
+        <div class="stat-value" id="adminStatProducts">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Session Orders</div>
+        <div class="stat-value" id="adminStatOrders">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Admin State</div>
+        <div class="stat-value" style="color: var(--success);">Online</div>
+      </div>
+    </div>
+
+    <div class="admin-two-column-layout">
+      <!-- Left Column: Add New Product Form -->
+      <div class="admin-column-card">
+        <h3 class="admin-card-title">🆕 Add New Vape Product</h3>
+        <form id="adminAddProductForm" onsubmit="event.preventDefault(); handleAdminAddProduct();">
+          <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-input" id="adminProdName" required placeholder="e.g. Al Fakher Crown Bar 8000 Puffs">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select class="form-input" id="adminProdCategory" required>
+                <option value="devices">Devices</option>
+                <option value="disposables">Disposables</option>
+                <option value="eliquids">E-Liquids</option>
+                <option value="accessories">Accessories</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Price (EGP)</label>
+              <input type="number" class="form-input" id="adminProdPrice" required placeholder="1100">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image URL</label>
+            <input type="text" class="form-input" id="adminProdImage" required placeholder="https://www.betavape.com/wp-content/uploads/...">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Battery Capacity</label>
+              <input type="text" class="form-input" id="adminProdBattery" placeholder="e.g. 600mAh or N/A">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fluid Capacity</label>
+              <input type="text" class="form-input" id="adminProdCapacity" placeholder="e.g. 18ml or N/A">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Resistance / Coils</label>
+            <input type="text" class="form-input" id="adminProdResistance" placeholder="e.g. 0.6 ohm mesh or N/A">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Flavors (comma separated)</label>
+            <input type="text" class="form-input" id="adminProdFlavors" placeholder="Peach Ice, Grape Ice, Two Apple">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nicotine Levels (comma separated)</label>
+            <input type="text" class="form-input" id="adminProdNicotine" placeholder="5% (50mg), 2% (20mg)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Description</label>
+            <textarea class="form-input" id="adminProdDesc" style="height: 80px; resize:none;" required placeholder="Enter device details..."></textarea>
+          </div>
+          <button type="submit" class="btn-admin-submit">Add Product to Store</button>
+        </form>
+      </div>
+
+      <!-- Right Column: Edit Existing Catalog -->
+      <div class="admin-column-card">
+        <h3 class="admin-card-title">📋 Edit Current Vape Catalog</h3>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Vape Product</th>
+                <th>Category</th>
+                <th>Price (EGP)</th>
+                <th>Stock</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminCatalogTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Order Logs History -->
+    <div class="admin-column-card" style="margin-top: 25px;">
+      <h3 class="admin-card-title">📦 Placed Orders Manager (Session Logs)</h3>
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Placed Time</th>
+              <th>Destination Address & Notes</th>
+              <th>Map Coordinates/URL</th>
+              <th>Items Ordered</th>
+              <th>Total Bill</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody">
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--text-muted);">No orders recorded in this session yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script src="admin.js"></script>
+</body>
+</html>
