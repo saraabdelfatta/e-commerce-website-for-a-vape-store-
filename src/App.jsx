@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import OrderTrackingPage from './pages/OrderTracking';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from './pages/AdminDashboard'; 
 
 // Storefront layout wraps Navbar + page content
 const StorefrontLayout = ({ children }) => (
