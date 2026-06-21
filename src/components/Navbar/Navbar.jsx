@@ -1,0 +1,49 @@
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import useProducts from '../../hooks/useProducts';
+import useCart from '../../hooks/useCart';
+import useOrders from '../../hooks/useOrders';
+
+export const Navbar = () => {
+  const navigate = useNavigate();
+  const { locale, toggleLanguage, t } = useProducts();
+  const { cart, setCartOpen } = useCart();
+  const { activeOrder } = useOrders();
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleTrackClick = () => {
+    if (activeOrder) {
+      navigate('/order-tracking');
+    } else {
+      alert(locale === 'en' ? "Please place an order first to track status." : "برجاء تقديم طلب أولاً لتتمكن من التتبع.");
+    }
+  };
+
+  return (
+    <div className="navbar-wrapper">
+      <nav className="navbar">
+        <Link to="/" className="navbar-brand">
+          VAPE<span>CAIRO</span>
+        </Link>
+        <div className="navbar-actions">
+          {/* Subtle Owner Dashboard access */}
+          <Link to="/admin" className="btn-nav" style={{ fontSize: '13px' }}>
+            👑 <span data-i18n="adminPanel">{locale === 'en' ? 'Owner Panel' : 'لوحة المالك'}</span>
+          </Link>
+          <button className="btn-nav" id="langToggleBtn" onClick={toggleLanguage}>
+            {locale === 'en' ? 'العربية 🇪🇬' : 'English 🇬🇧'}
+          </button>
+          <button className="btn-nav" id="navTrackBtn" onClick={handleTrackClick}>
+            🔍 <span>{t('trackOrder')}</span>
+          </button>
+          <button className="btn-nav btn-cart" onClick={() => setCartOpen(true)}>
+            🛒 <span>{t('cartTitle')}</span>
+            <div className="cart-badge" id="cartCountBadge">{cartCount}</div>
+          </button>
+        </div>
+      </nav>
+    </div>
+  );
+};
+export default Navbar;
