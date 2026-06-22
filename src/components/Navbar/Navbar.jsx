@@ -50,10 +50,6 @@ export const Navbar = () => {
         </div>
         {/* =============== End Navigation Menu =============== */}
         <div className="navbar-actions">
-          {/* Subtle Owner Dashboard access */}
-          <Link to="/admin" className="btn-nav" style={{ fontSize: '13px' }}>
-            👑 <span data-i18n="adminPanel">{locale === 'en' ? 'Owner Panel' : 'لوحة المالك'}</span>
-          </Link>
           <button className="btn-nav" id="langToggleBtn" onClick={toggleLanguage}>
             {locale === 'en' ? 'العربية 🇪🇬' : 'English 🇬🇧'}
           </button>

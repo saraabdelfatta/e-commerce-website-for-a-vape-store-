@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import StatisticsCards from '../components/Admin/StatisticsCards';
 import AddProductForm from '../components/Admin/AddProductForm';
 import ProductCatalogTable from '../components/Admin/ProductCatalogTable';
 import OrderManagementTable from '../components/Admin/OrderManagementTable';
 
 const AdminDashboard = () => {
+  const { logout } = useAuth();
+
   return (
     <>
       {/* Admin Navigation Header */}
@@ -18,9 +21,24 @@ const AdminDashboard = () => {
             </span>
           </div>
           <div className="navbar-actions">
-            <Link to="/" className="btn-nav">
-              🏪 <span>Storefront</span>
-            </Link>
+            {/* Opens storefront in a new tab so the owner doesn't lose the dashboard */}
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-nav"
+              title="Open storefront in a new tab"
+            >
+              🏪 <span>View Website</span>
+            </a>
+            <button
+              className="btn-nav"
+              onClick={logout}
+              title="Sign out and return to login"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              🔒 <span>Sign Out</span>
+            </button>
           </div>
         </nav>
       </div>
