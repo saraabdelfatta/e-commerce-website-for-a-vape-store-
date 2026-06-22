@@ -26,6 +26,29 @@ export const Navbar = () => {
         <Link to="/" className="navbar-brand">
           VAPE<span>CAIRO</span>
         </Link>
+        {/* ================= Navigation Menu ================= */}
+        <div className="navbar-menu">
+          <Link to="/" className="nav-link">
+            {t('home')}
+          </Link>
+
+          <Link to="/shop" className="nav-link">
+            {t('shop')}
+          </Link>
+
+          <Link to="/about" className="nav-link">
+            {t('about')}
+          </Link>
+
+          <Link to="/blog" className="nav-link">
+            {t('blog')}
+          </Link>
+
+          <Link to="/contact" className="nav-link">
+            {t('contact')}
+          </Link>
+        </div>
+        {/* =============== End Navigation Menu =============== */}
         <div className="navbar-actions">
           {/* Subtle Owner Dashboard access */}
           <Link to="/admin" className="btn-nav" style={{ fontSize: '13px' }}>
