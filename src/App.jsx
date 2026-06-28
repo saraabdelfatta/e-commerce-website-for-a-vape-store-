@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ProductProvider } from './context/ProductContext';
 import { CartProvider } from './context/CartContext';
 import { OrderProvider } from './context/OrderContext';
-import { AuthProvider } from './context/AuthContext';
+
 
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import Navbar from './components/Navbar/Navbar';
-import AdminLogin from './pages/AdminLogin';
-import RequireAuth from './components/RequireAuth';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import About from './pages/About';
@@ -18,7 +16,15 @@ import Terms from './pages/Terms';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import OrderTrackingPage from './pages/OrderTracking';
-import AdminDashboard from './pages/AdminDashboard';
+
+// Admin imports
+import AdminLogin from './admin/pages/AdminLogin';
+import AdminLayout from './admin/components/AdminLayout';
+import AdminProtectedRoute from './admin/components/AdminProtectedRoute';
+import AdminDashboard from './admin/pages/AdminDashboard';
+import AdminProfile from './admin/pages/AdminProfile';
+import AdminBlank from './admin/pages/AdminBlank';
+import Admin404 from './admin/pages/Admin404';
 
 // Wrapper that shows the splash screen only on the home route
 function SplashWrapper({ showSplash, children }) {
@@ -55,16 +61,29 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <ProductProvider>
+      <ProductProvider>
           <CartProvider>
             <OrderProvider>
               <Routes>
-                {/* Admin routes — no splash screen, render immediately */}
+                {/* ===== Admin Routes ===== */}
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin" element={<RequireAuth><AdminDashboard /></RequireAuth>} />
+                <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+                <Route path="/admin/404" element={<Admin404 />} />
+                <Route
+                  path="/admin/*"
+                  element={
+                    <AdminProtectedRoute>
+                      <AdminLayout />
+                    </AdminProtectedRoute>
+                  }
+                >
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="profile" element={<AdminProfile />} />
+                  <Route path="blank" element={<AdminBlank />} />
+                  <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
+                </Route>
 
-                {/* Storefront routes — with splash screen on first visit */}
+                {/* ===== Storefront Routes ===== */}
                 <Route
                   path="/*"
                   element={
@@ -89,7 +108,6 @@ function App() {
             </OrderProvider>
           </CartProvider>
         </ProductProvider>
-      </AuthProvider>
     </BrowserRouter>
   );
 }

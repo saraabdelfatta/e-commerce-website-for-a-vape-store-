@@ -47,6 +47,10 @@ export const Navbar = () => {
           <Link to="/contact" className="nav-link">
             {t('contact')}
           </Link>
+
+          <Link to="/admin/login" className="nav-link">
+            Admin
+          </Link>
         </div>
         {/* =============== End Navigation Menu =============== */}
         <div className="navbar-actions">
