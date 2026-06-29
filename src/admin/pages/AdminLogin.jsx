@@ -174,31 +174,7 @@ export const AdminLogin = () => {
                   </span>
                 </div>
               </div>
-
-              {/* Keep logged in + Forgot password */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#374151', cursor: 'pointer', userSelect: 'none' }}>
-                  <input type="checkbox" className="sr-only" checked={keepLoggedIn} onChange={(e) => setKeepLoggedIn(e.target.checked)} />
-                  <div style={{
-                    width: '20px', height: '20px', borderRadius: '6px', flexShrink: 0,
-                    border: `1.5px solid ${keepLoggedIn ? brand : '#D1D5DB'}`,
-                    background: keepLoggedIn ? brand : 'transparent',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'all 0.15s',
-                  }}>
-                    {keepLoggedIn && (
-                      <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                  </div>
-                  Keep me logged in
-                </label>
-                <a href="#/forgot-password" style={{ fontSize: '14px', color: brand, textDecoration: 'none', fontWeight: 500 }}>
-                  Forgot password?
-                </a>
-              </div>
-
+              
               {/* Submit button */}
               <button
                 type="submit"
