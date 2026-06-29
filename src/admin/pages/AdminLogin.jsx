@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/style.css';
 
+
 export const AdminLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail]             = useState('');
@@ -174,7 +175,7 @@ export const AdminLogin = () => {
                   </span>
                 </div>
               </div>
-              
+
               {/* Submit button */}
               <button
                 type="submit"

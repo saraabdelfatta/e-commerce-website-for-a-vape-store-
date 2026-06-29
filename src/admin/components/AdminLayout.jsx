@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import '../styles/style.css';
+import '../styles/admin-fix.css';
 
 export const AdminLayout = () => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
