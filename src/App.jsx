@@ -23,6 +23,8 @@ import AdminLayout from './admin/components/AdminLayout';
 import AdminProtectedRoute from './admin/components/AdminProtectedRoute';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminProfile from './admin/pages/AdminProfile';
+import AdminAccounting from './admin/pages/AdminAccounting';
+
 
 // Wrapper that shows the splash screen only on the home route
 function SplashWrapper({ showSplash, children }) {
@@ -76,6 +78,7 @@ function App() {
                 >
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="profile" element={<AdminProfile />} />
+                  <Route path="accounting" element={<AdminAccounting />} />
                   <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                 </Route>
 
