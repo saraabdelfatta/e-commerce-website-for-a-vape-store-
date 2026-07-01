@@ -23,8 +23,6 @@ import AdminLayout from './admin/components/AdminLayout';
 import AdminProtectedRoute from './admin/components/AdminProtectedRoute';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminProfile from './admin/pages/AdminProfile';
-import AdminBlank from './admin/pages/AdminBlank';
-import Admin404 from './admin/pages/Admin404';
 
 // Wrapper that shows the splash screen only on the home route
 function SplashWrapper({ showSplash, children }) {
@@ -68,7 +66,6 @@ function App() {
                 {/* ===== Admin Routes ===== */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-                <Route path="/admin/404" element={<Admin404 />} />
                 <Route
                   path="/admin/*"
                   element={
@@ -79,7 +76,6 @@ function App() {
                 >
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="profile" element={<AdminProfile />} />
-                  <Route path="blank" element={<AdminBlank />} />
                   <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                 </Route>
 
