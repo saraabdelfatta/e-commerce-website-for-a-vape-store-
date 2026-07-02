@@ -27,7 +27,7 @@ export const CartDrawer = () => {
     couponFeedback
   } = useCart();
 
-  const { t, locale } = useProducts();
+  const { t, locale, updateStock } = useProducts();
   const { placeOrder } = useOrders();
 
   const { subtotal, discountVal, shippingFee, total } = getCartTotals();
@@ -46,6 +46,10 @@ export const CartDrawer = () => {
     const totals = getCartTotals();
     let mapsLinkText = '';
     let destinationText = '';
+
+    cart.forEach(item => {
+      updateStock(item.product.id, -item.quantity);
+    });
 
     if (pastedLocationUrl) {
       mapsLinkText = pastedLocationUrl;

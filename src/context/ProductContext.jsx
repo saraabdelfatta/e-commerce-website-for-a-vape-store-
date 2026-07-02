@@ -46,6 +46,16 @@ export const ProductProvider = ({ children }) => {
     if (updated) setProducts(updated);
   };
 
+  const updateStock = (productId, delta) => {
+    const updated = productService.updateProductStock(productId, delta);
+    if (updated) setProducts(updated);
+  };
+
+  const setStock = (productId, quantity) => {
+    const updated = productService.setProductStock(productId, quantity);
+    if (updated) setProducts(updated);
+  };
+
   const deleteProduct = (productId) => {
     const updated = productService.deleteProduct(productId);
     if (updated) setProducts(updated);
@@ -73,6 +83,8 @@ export const ProductProvider = ({ children }) => {
       t,
       updatePrice,
       toggleStock,
+      updateStock,
+      setStock,
       deleteProduct,
       addProduct,
       refreshProducts

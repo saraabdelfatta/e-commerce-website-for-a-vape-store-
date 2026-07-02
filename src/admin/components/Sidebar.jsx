@@ -24,6 +24,12 @@ const menuItems = [
     ),
   },
   {
+    name: 'Inventory',
+    href: '/admin/inventory',
+    page: 'inventory',
+    // icon removed per user request
+  },
+  {
     name: 'Accounting',
     href: '/admin/accounting',
     page: 'accounting',

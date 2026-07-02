@@ -37,7 +37,43 @@ export const storageService = {
   getProducts() {
     this.initialize();
     const stored = localStorage.getItem(PRODUCTS_KEY);
-    return stored ? JSON.parse(stored) : [...DEFAULT_PRODUCTS];
+    let products = stored ? JSON.parse(stored) : [...DEFAULT_PRODUCTS];
+    let shouldSave = false;
+
+    products = products.map((product) => {
+      const patched = { ...product };
+      if (patched.stock === undefined) {
+        patched.stock = patched.inStock ? 24 : 0;
+        shouldSave = true;
+      }
+      if (patched.minStock === undefined) {
+        patched.minStock = patched.stock > 0 ? 10 : 5;
+        shouldSave = true;
+      }
+      if (!patched.sku) {
+        patched.sku = `SKU-${patched.id.toUpperCase()}`;
+        shouldSave = true;
+      }
+      if (!patched.lastUpdated) {
+        patched.lastUpdated = new Date().toISOString().split('T')[0];
+        shouldSave = true;
+      }
+      if (patched.stock <= 0 && patched.inStock) {
+        patched.inStock = false;
+        shouldSave = true;
+      }
+      if (patched.stock > 0 && patched.inStock === false) {
+        patched.inStock = true;
+        shouldSave = true;
+      }
+      return patched;
+    });
+
+    if (shouldSave) {
+      localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
+    }
+
+    return products;
   },
 
   saveProducts(products) {
