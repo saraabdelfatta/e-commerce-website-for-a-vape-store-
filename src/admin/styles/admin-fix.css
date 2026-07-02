@@ -86,7 +86,6 @@
 .sidebar:hover .menu-group-icon { display: none; }
 .sidebar:hover .menu-item-text { display: inline; }
 .sidebar:hover .menu-item-arrow { display: block; }
-.sidebar:hover .menu-dropdown { display: flex; }
 
 /* ── ADMIN WRAPPER ──────────────────────────────────────────── */
 .admin-dashboard-wrapper {

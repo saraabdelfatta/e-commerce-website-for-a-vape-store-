@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import ReactApexChart from 'react-apexcharts';
 
@@ -15,13 +16,13 @@ const salesData = [
 ];
 
 const expenseData = [
-  { name: 'Warehouse Rent',         category: 'Rent',        amount: 15000, date: 'Jun 1, 2025',  notes: 'Monthly rent' },
-  { name: 'Staff Salaries',         category: 'Salaries',    amount: 32000, date: 'Jun 1, 2025',  notes: '4 employees' },
-  { name: 'Instagram & Facebook Ads', category: 'Marketing', amount: 8000,  date: 'Jun 5, 2025',  notes: 'Summer campaign' },
-  { name: 'DHL Shipping Fees',      category: 'Shipping',    amount: 3200,  date: 'Jun 10, 2025', notes: 'Monthly courier' },
-  { name: 'Electricity Bill',       category: 'Utilities',   amount: 2100,  date: 'Jun 15, 2025', notes: 'June bill' },
-  { name: 'SMOK Stock Order',       category: 'Inventory',   amount: 45000, date: 'Jun 18, 2025', notes: 'New stock batch' },
-  { name: 'Packaging Materials',    category: 'Miscellaneous', amount: 1800, date: 'Jun 20, 2025', notes: 'Boxes & bags' },
+  { id: 'e1', name: 'Warehouse Rent',         category: 'Rent',        amount: 15000, date: 'Jun 1, 2025',  notes: 'Monthly rent' },
+  { id: 'e2', name: 'Staff Salaries',         category: 'Salaries',    amount: 32000, date: 'Jun 1, 2025',  notes: '4 employees' },
+  { id: 'e3', name: 'Instagram & Facebook Ads', category: 'Marketing', amount: 8000,  date: 'Jun 5, 2025',  notes: 'Summer campaign' },
+  { id: 'e4', name: 'DHL Shipping Fees',      category: 'Shipping',    amount: 3200,  date: 'Jun 10, 2025', notes: 'Monthly courier' },
+  { id: 'e5', name: 'Electricity Bill',       category: 'Utilities',   amount: 2100,  date: 'Jun 15, 2025', notes: 'June bill' },
+  { id: 'e6', name: 'SMOK Stock Order',       category: 'Inventory',   amount: 45000, date: 'Jun 18, 2025', notes: 'New stock batch' },
+  { id: 'e7', name: 'Packaging Materials',    category: 'Miscellaneous', amount: 1800, date: 'Jun 20, 2025', notes: 'Boxes & bags' },
 ];
 
 const inventoryData = [
@@ -267,11 +268,23 @@ const SalesAccounting = () => {
 
 // 4. Expense Management
 const ExpenseManagement = () => {
-  const [showForm, setShowForm] = useState(false);
   const categories = ['All','Rent','Salaries','Marketing','Shipping','Utilities','Inventory','Miscellaneous'];
+  const [showForm, setShowForm] = useState(false);
   const [cat, setCat] = useState('All');
-  const filtered = cat === 'All' ? expenseData : expenseData.filter(e => e.category === cat);
-  const total = filtered.reduce((s, e) => s + e.amount, 0);
+  const [expenses, setExpenses] = useState([]);
+  const [form, setForm] = useState({ name: '', category: 'Rent', amount: '', date: '', notes: '' });
+
+  useEffect(() => {
+    const stored = localStorage.getItem('adminExpenseData');
+    setExpenses(stored ? JSON.parse(stored) : expenseData);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('adminExpenseData', JSON.stringify(expenses));
+  }, [expenses]);
+
+  const filtered = cat === 'All' ? expenses : expenses.filter(e => e.category === cat);
+  const total = filtered.reduce((s, e) => s + Number(e.amount || 0), 0);
 
   const catColors = {
     Rent: 'bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400',
@@ -305,52 +318,120 @@ const ExpenseManagement = () => {
         <div className="mb-4 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-white/[0.02]">
           <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">New Expense</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {[{label:'Expense Name',id:'exp-name',type:'text',placeholder:'e.g. Rent'},
-              {label:'Amount (EGP)',id:'exp-amount',type:'number',placeholder:'0'},
-              {label:'Date',id:'exp-date',type:'date',placeholder:''},
-            ].map(f => (
-              <div key={f.id}>
-                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{f.label}</label>
-                <input type={f.type} id={f.id} placeholder={f.placeholder}
-                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
+            {[
+              { label: 'Expense Name', key: 'name', type: 'text', placeholder: 'e.g. Rent' },
+              { label: 'Amount (EGP)', key: 'amount', type: 'number', placeholder: '0' },
+              { label: 'Date', key: 'date', type: 'date', placeholder: '' },
+            ].map((field) => (
+              <div key={field.key}>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{field.label}</label>
+                <input
+                  type={field.type}
+                  value={form[field.key]}
+                  onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
+                  placeholder={field.placeholder}
+                  className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                />
               </div>
             ))}
             <div>
               <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Category</label>
-              <select className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                {categories.filter(c => c !== 'All').map(c => <option key={c}>{c}</option>)}
+              <select
+                value={form.category}
+                onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+              >
+                {categories.filter(c => c !== 'All').map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Notes</label>
-              <input type="text" placeholder="Optional notes"
-                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" />
+              <input
+                type="text"
+                value={form.notes}
+                onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+                placeholder="Optional notes"
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+              />
             </div>
             <div className="flex items-end gap-2">
-              <button onClick={() => setShowForm(false)} className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">Cancel</button>
-              <button className="flex-1 rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600">Save</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setForm({ name: '', category: 'Rent', amount: '', date: '', notes: '' });
+                }}
+                className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!form.name || !form.amount || !form.date) return;
+                  setExpenses((prev) => [
+                    ...prev,
+                    {
+                      id: `e${Date.now()}`,
+                      name: form.name,
+                      category: form.category,
+                      amount: Number(form.amount),
+                      date: form.date,
+                      notes: form.notes,
+                    },
+                  ]);
+                  setForm({ name: '', category: 'Rent', amount: '', date: '', notes: '' });
+                  setShowForm(false);
+                }}
+                className="flex-1 rounded-lg bg-brand-500 px-3 py-2 text-sm font-medium text-white hover:bg-brand-600"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
       )}
 
       <div className="overflow-x-auto">
-        <table className="min-w-full">
+        <table className="min-w-full table-fixed border-collapse">
           <thead>
             <tr className="border-y border-gray-100 dark:border-gray-800">
-              {['Expense','Category','Amount','Date','Notes'].map(h => (
-                <th key={h} className="py-3 pr-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">{h}</th>
+              {['Expense','Category','Amount','Date','Notes','Actions'].map((h) => (
+                <th
+                  key={h}
+                  className={`py-3 px-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 ${
+                    h === 'Expense' ? 'w-[24%]' :
+                    h === 'Category' ? 'w-[14%]' :
+                    h === 'Amount' ? 'w-[12%] text-right' :
+                    h === 'Date' ? 'w-[14%]' :
+                    h === 'Notes' ? 'w-[26%]' :
+                    'w-[10%]'
+                  }`}
+                >
+                  {h}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-            {filtered.map((e, i) => (
-              <tr key={i} className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
-                <td className="py-3 pr-4 text-sm font-medium text-gray-800 dark:text-white/90">{e.name}</td>
-                <td className="py-3 pr-4"><Badge label={e.category} className={catColors[e.category] || ''} /></td>
-                <td className="py-3 pr-4 text-sm font-semibold text-error-600">{e.amount.toLocaleString()} EGP</td>
-                <td className="py-3 pr-4 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">{e.date}</td>
-                <td className="py-3 text-sm text-gray-500 dark:text-gray-400">{e.notes}</td>
+            {filtered.map((e) => (
+              <tr key={e.id} className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
+                <td className="py-2 px-3 text-sm font-semibold text-gray-800 dark:text-white/90">{e.name}</td>
+                <td className="py-2 px-3"><Badge label={e.category} className={catColors[e.category] || ''} /></td>
+                <td className="py-2 px-3 text-sm font-semibold text-error-600 text-right">{Number(e.amount).toLocaleString()} EGP</td>
+                <td className="py-2 px-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">{e.date}</td>
+                <td className="py-2 px-3 text-sm text-gray-500 dark:text-gray-400">{e.notes}</td>
+                <td className="py-2 px-3">
+                  <button
+                    type="button"
+                    onClick={() => setExpenses((prev) => prev.filter((item) => item.id !== e.id))}
+                    className="rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.06]"
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -502,29 +583,31 @@ const VatManagement = () => {
 // ─────────────────────────────────────────────
 
 export const AdminAccounting = () => {
-  const sections = [
-    'Overview', 'P&L', 'Sales', 'Expenses',
-    'Inventory', 'Customer Debts', 'Suppliers', 'VAT', 'Cash Flow',
-  ];
-  const [activeSection, setActiveSection] = useState('Overview');
+  const location = useLocation();
+
+  const sectionKey = location.pathname.replace('/admin/accounting', '').replace(/^\//, '');
+  const sectionMap = {
+    '': 'Overview',
+    overview: 'Overview',
+    revenue: 'Revenue',
+    expenses: 'Expenses',
+    'profit-loss': 'Profit & Loss',
+    pl: 'P&L',
+    'cash-flow': 'Cash Flow',
+    invoices: 'Invoices',
+    suppliers: 'Suppliers',
+    'customer-debts': 'Customer Debts',
+    taxes: 'Taxes',
+    vat: 'VAT',
+    reports: 'Reports',
+    inventory: 'Inventory',
+    sales: 'Sales',
+  };
+  const activeSection = sectionMap[sectionKey] || 'Overview';
 
   return (
     <>
       <Breadcrumb pageName="Accounting" />
-
-      {/* Section Navigation */}
-      <div className="mb-6 flex gap-2 flex-wrap">
-        {sections.map(s => (
-          <button key={s} onClick={() => setActiveSection(s)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeSection === s
-                ? 'bg-brand-500 text-white shadow-sm'
-                : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.05]'
-            }`}>
-            {s}
-          </button>
-        ))}
-      </div>
 
       {/* Section Content */}
       <div className="space-y-6">
@@ -554,7 +637,37 @@ export const AdminAccounting = () => {
         {activeSection === 'Customer Debts' && <CustomerDebts />}
         {activeSection === 'Suppliers'      && <SupplierAccounting />}
         {activeSection === 'VAT'            && <VatManagement />}
-
+        {activeSection === 'Revenue'        && (
+          <SectionCard title="Revenue">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Revenue analytics and monthly growth trends are shown here.
+            </p>
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+              <ReactApexChart options={revenueExpenseChart.options} series={[revenueExpenseChart.series[0]]} type="area" height={280} />
+            </div>
+          </SectionCard>
+        )}
+        {activeSection === 'Invoices'      && (
+          <SectionCard title="Invoices">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Invoices will appear here once your accounting workflow is connected.
+            </p>
+          </SectionCard>
+        )}
+        {activeSection === 'Taxes'         && (
+          <SectionCard title="Taxes">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Tax summaries and declarations are managed in this section.
+            </p>
+          </SectionCard>
+        )}
+        {activeSection === 'Reports'       && (
+          <SectionCard title="Reports">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Consolidated financial reports and export options are available here.
+            </p>
+          </SectionCard>
+        )}
         {activeSection === 'Cash Flow' && (
           <div className="grid grid-cols-12 gap-4 md:gap-6">
             <div className="col-span-12 xl:col-span-8 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">

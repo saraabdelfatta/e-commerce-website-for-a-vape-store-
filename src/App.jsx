@@ -78,7 +78,7 @@ function App() {
                 >
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="profile" element={<AdminProfile />} />
-                  <Route path="accounting" element={<AdminAccounting />} />
+                  <Route path="accounting/*" element={<AdminAccounting />} />
                   <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                 </Route>
 

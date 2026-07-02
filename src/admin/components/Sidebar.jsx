@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
 
 const menuItems = [
@@ -24,28 +24,46 @@ const menuItems = [
     ),
   },
   {
-  name: 'Accounting',
-  href: '/admin/accounting',
-  page: 'accounting',
-  icon: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M3.25 6.5C3.25 4.98122 4.48122 3.75 6 3.75H18C19.5188 3.75 20.75 4.98122 20.75 6.5V17.5C20.75 19.0188 19.5188 20.25 18 20.25H6C4.48122 20.25 3.25 19.0188 3.25 17.5V6.5ZM6 5.25C5.30964 5.25 4.75 5.80964 4.75 6.5V17.5C4.75 18.1904 5.30964 18.75 6 18.75H18C18.6904 18.75 19.25 18.1904 19.25 17.5V6.5C19.25 5.80964 18.6904 5.25 18 5.25H6ZM7.25 9.5C7.25 9.08579 7.58579 8.75 8 8.75H16C16.4142 8.75 16.75 9.08579 16.75 9.5C16.75 9.91421 16.4142 10.25 16 10.25H8C7.58579 10.25 7.25 9.91421 7.25 9.5ZM7.25 12.5C7.25 12.0858 7.58579 11.75 8 11.75H16C16.4142 11.75 16.75 12.0858 16.75 12.5C16.75 12.9142 16.4142 13.25 16 13.25H8C7.58579 13.25 7.25 12.9142 7.25 12.5ZM7.25 15.5C7.25 15.0858 7.58579 14.75 8 14.75H12C12.4142 14.75 12.75 15.0858 12.75 15.5C12.75 15.9142 12.4142 16.25 12 16.25H8C7.58579 16.25 7.25 15.9142 7.25 15.5Z" fill=""/>
-    </svg>
-  ),
-},
+    name: 'Accounting',
+    href: '/admin/accounting',
+    page: 'accounting',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fillRule="evenodd" clipRule="evenodd" d="M3.25 6.5C3.25 4.98122 4.48122 3.75 6 3.75H18C19.5188 3.75 20.75 4.98122 20.75 6.5V17.5C20.75 19.0188 19.5188 20.25 18 20.25H6C4.48122 20.25 3.25 19.0188 3.25 17.5V6.5ZM6 5.25C5.30964 5.25 4.75 5.80964 4.75 6.5V17.5C4.75 18.1904 5.30964 18.75 6 18.75H18C18.6904 18.75 19.25 18.1904 19.25 17.5V6.5C19.25 5.80964 18.6904 5.25 18 5.25H6ZM7.25 9.5C7.25 9.08579 7.58579 8.75 8 8.75H16C16.4142 8.75 16.75 9.08579 16.75 9.5C16.75 9.91421 16.4142 10.25 16 10.25H8C7.58579 10.25 7.25 9.91421 7.25 9.5ZM7.25 12.5C7.25 12.0858 7.58579 11.75 8 11.75H16C16.4142 11.75 16.75 12.0858 16.75 12.5C16.75 12.9142 16.4142 13.25 16 13.25H8C7.58579 13.25 7.25 12.9142 7.25 12.5ZM7.25 15.5C7.25 15.0858 7.58579 14.75 8 14.75H12C12.4142 14.75 12.75 15.0858 12.75 15.5C12.75 15.9142 12.4142 16.25 12 16.25H8C7.58579 16.25 7.25 15.9142 7.25 15.5Z" fill=""/>
+      </svg>
+    ),
+    submenu: [
+      { name: 'Financial Overview', href: '/admin/accounting/overview', icon: 'overview' },
+      { name: 'Revenue', href: '/admin/accounting/revenue', icon: 'revenue' },
+      { name: 'Expenses', href: '/admin/accounting/expenses', icon: 'expenses' },
+      { name: 'Profit & Loss', href: '/admin/accounting/pl', icon: 'pl' },
+      { name: 'Cash Flow', href: '/admin/accounting/cash-flow', icon: 'cash-flow' },
+      { name: 'Invoices', href: '/admin/accounting/invoices', icon: 'invoices' },
+      { name: 'Suppliers', href: '/admin/accounting/suppliers', icon: 'suppliers' },
+      { name: 'Customer Debts', href: '/admin/accounting/customer-debts', icon: 'customer-debts' },
+      { name: 'Taxes', href: '/admin/accounting/taxes', icon: 'taxes' },
+      { name: 'Reports', href: '/admin/accounting/reports', icon: 'reports' },
+    ],
+  },
 ];
 
 export const Sidebar = ({ sidebarToggle }) => {
   const location = useLocation();
   const [openDropdown, setOpenDropdown] = useState('');
 
-  const currentPage = location.pathname.split('/admin/')[1] || 'dashboard';
+  const currentPath = location.pathname;
+
+  useEffect(() => {
+    if (currentPath.startsWith('/admin/accounting')) {
+      setOpenDropdown('Accounting');
+    }
+  }, [currentPath]);
 
   const toggleDropdown = (name) => {
     setOpenDropdown((prev) => (prev === name ? '' : name));
   };
 
-  const isActive = (page) => currentPage === page;
+  const isActive = (href) => currentPath === href || currentPath.startsWith(`${href}/`);
 
   return (
     <aside
@@ -74,21 +92,73 @@ export const Sidebar = ({ sidebarToggle }) => {
             </h3>
 
             <ul className="flex flex-col gap-4 mb-6">
-              {menuItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.href}
-                    className={`menu-item group ${isActive(item.page) ? 'menu-item-active' : 'menu-item-inactive'}`}
-                  >
-                    <span className={isActive(item.page) ? 'menu-item-icon-active' : 'menu-item-icon-inactive'}>
-                      {item.icon}
-                    </span>
-                    <span className={`menu-item-text ${sidebarToggle ? 'lg:hidden' : ''}`}>
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              {menuItems.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <li key={item.name}>
+                    {item.submenu ? (
+                      <div className="relative">
+                        <div className={`menu-item group ${active ? 'menu-item-active' : 'menu-item-inactive'}`}>
+                          <button
+                            type="button"
+                            onClick={() => toggleDropdown(item.name)}
+                            className="flex-1 flex items-center gap-3 text-left"
+                          >
+                            <span className={active ? 'menu-item-icon-active' : 'menu-item-icon-inactive'}>
+                              {item.icon}
+                            </span>
+                            <span className={`menu-item-text ${sidebarToggle ? 'lg:hidden' : ''}`}>
+                              {item.name}
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleDropdown(item.name);
+                            }}
+                            className={`menu-item-arrow ${openDropdown === item.name ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive'} ${sidebarToggle ? 'hidden' : ''}`}
+                            aria-label={`${openDropdown === item.name ? 'Collapse' : 'Expand'} ${item.name} submenu`}
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+                        </div>
+                        <div className={`${openDropdown === item.name && !sidebarToggle ? 'flex' : 'hidden'} menu-dropdown flex-col gap-2 mt-2`}> 
+                          {item.submenu.map((sub) => (
+                            <Link
+                              key={sub.name}
+                              to={sub.href}
+                              className={`menu-dropdown-item ${isActive(sub.href) ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'}`}
+                            >
+                              <span className={`inline-flex h-4 w-4 items-center justify-center rounded-full ${isActive(sub.href) ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'}`}>
+                                <svg width="6" height="6" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                  <circle cx="4" cy="4" r="3" />
+                                </svg>
+                              </span>
+                              <span>{sub.name}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        className={`menu-item group ${active ? 'menu-item-active' : 'menu-item-inactive'}`}
+                      >
+                        <span className={active ? 'menu-item-icon-active' : 'menu-item-icon-inactive'}>
+                          {item.icon}
+                        </span>
+                        <span className={`menu-item-text ${sidebarToggle ? 'lg:hidden' : ''}`}>
+                          {item.name}
+                        </span>
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
 
             </ul>
           </div>
