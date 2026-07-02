@@ -399,10 +399,10 @@ const ExpenseManagement = () => {
           <colgroup>
             <col className="w-[20%]" />
             <col className="w-[14%]" />
-            <col className="w-[14%]" />
-            <col className="w-[14%]" />
-            <col className="w-[30%]" />
             <col className="w-[8%]" />
+            <col className="w-[24%]" />
+            <col className="w-[18%]" />
+            <col className="w-[16%]" />
           </colgroup>
           <thead>
             <tr className="border-y border-gray-100 dark:border-gray-800">
