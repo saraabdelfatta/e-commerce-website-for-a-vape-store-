@@ -394,40 +394,39 @@ const ExpenseManagement = () => {
         </div>
       )}
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-fixed border-collapse">
+      <div className="overflow-x-auto" dir="ltr">
+        <table className="w-full table-fixed border-collapse">
+          <colgroup>
+            <col className="w-[20%]" />
+            <col className="w-[14%]" />
+            <col className="w-[14%]" />
+            <col className="w-[14%]" />
+            <col className="w-[30%]" />
+            <col className="w-[8%]" />
+          </colgroup>
           <thead>
             <tr className="border-y border-gray-100 dark:border-gray-800">
-              {['Expense','Category','Amount','Date','Notes','Actions'].map((h) => (
-                <th
-                  key={h}
-                  className={`py-3 px-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 ${
-                    h === 'Expense' ? 'w-[24%]' :
-                    h === 'Category' ? 'w-[14%]' :
-                    h === 'Amount' ? 'w-[12%] text-right' :
-                    h === 'Date' ? 'w-[14%]' :
-                    h === 'Notes' ? 'w-[26%]' :
-                    'w-[10%]'
-                  }`}
-                >
-                  {h}
-                </th>
-              ))}
+              <th className="py-2.5 px-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Expense</th>
+              <th className="py-2.5 px-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Category</th>
+              <th className="py-2.5 px-2 text-right text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Amount</th>
+              <th className="py-2.5 px-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Date</th>
+              <th className="py-2.5 px-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Notes</th>
+              <th className="py-2.5 px-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
             {filtered.map((e) => (
               <tr key={e.id} className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
-                <td className="py-2 px-3 text-sm font-semibold text-gray-800 dark:text-white/90">{e.name}</td>
-                <td className="py-2 px-3"><Badge label={e.category} className={catColors[e.category] || ''} /></td>
-                <td className="py-2 px-3 text-sm font-semibold text-error-600 text-right">{Number(e.amount).toLocaleString()} EGP</td>
-                <td className="py-2 px-3 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">{e.date}</td>
-                <td className="py-2 px-3 text-sm text-gray-500 dark:text-gray-400">{e.notes}</td>
-                <td className="py-2 px-3">
+                <td className="py-2 px-2 text-left text-sm font-semibold text-gray-800 dark:text-white/90 truncate">{e.name}</td>
+                <td className="py-2 px-2 text-left"><Badge label={e.category} className={catColors[e.category] || ''} /></td>
+                <td className="py-2 px-2 text-right text-sm font-semibold text-error-600 whitespace-nowrap">{Number(e.amount).toLocaleString()} EGP</td>
+                <td className="py-2 px-2 text-left text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">{e.date}</td>
+                <td className="py-2 px-2 text-left text-sm text-gray-500 dark:text-gray-400 truncate">{e.notes}</td>
+                <td className="py-2 px-2 text-center">
                   <button
                     type="button"
                     onClick={() => setExpenses((prev) => prev.filter((item) => item.id !== e.id))}
-                    className="rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.06]"
+                    className="rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.06]"
                   >
                     Delete
                   </button>
